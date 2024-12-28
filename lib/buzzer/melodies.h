@@ -6,8 +6,8 @@
 // Fixed-size array to hold a melody
 struct NoteInfo {
     String note;
-    int duration;
-    int delay;
+    int duration;       /** Duration for the note to play */
+    int delay;          /** Delay before the next note  */
 };
 
 // Declare melody1, getFrequency, and noteNames as extern to avoid multiple definitions

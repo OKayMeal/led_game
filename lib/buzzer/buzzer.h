@@ -42,11 +42,9 @@ public:
     /**
      * @brief Plays a certain note from the melody.
      *
-     * @param melody NoteInfo array containing notes, duration and delay after the note info.
-     * 
-     * @param noteIndex Index of the note in a melody array.
+     * @param noteInfo Note Info to play (note, delay, duration).
      */
-    void playNote(const NoteInfo melody[], int noteIndex);
+    void playNote(const NoteInfo* noteInfo);
 
     /**
      * @brief Stops the buzzer from making any sound.
