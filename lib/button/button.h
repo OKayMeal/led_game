@@ -31,6 +31,8 @@ public:
      *
      * @param pinNumber The Arduino pin number to which the button is connected.
      * 
+     * @param buttonIndex The physical index as placed on the gameboard
+     * 
      * @param ledObject The LED object this button should control.
      */
     Button(uint8_t pinNumber, int index, LED& ledObject);
@@ -57,7 +59,7 @@ public:
      *
      * @param note Note to set.
      */
-    void setNote(const NoteInfo& note);
+    void setNote(const NoteInfo* note);
 };
 
 #endif // _BUTTON_H_
