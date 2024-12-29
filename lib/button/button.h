@@ -2,9 +2,9 @@
 #define _BUTTON_H_
 
 #include <led.h>
+#include <buzzer.h>
 #include <melodies.h>
 #include <Arduino.h>
-
 
 /**
  * @class Button
@@ -15,13 +15,13 @@
  */
 class Button {
 private:
-    uint8_t pin;               /** The Arduino pin number where the button is connected */
-    int index;                 /** Button's physical index as placed on the gameboard */
-    bool lastState;            /** The last read state of the button */
-    unsigned long lastDebounceTime; /** The last time the button state changed */
+    uint8_t pin;                            /** The Arduino pin number where the button is connected */
+    int index;                              /** Button's physical index as placed on the gameboard */
+    bool lastState;                         /** The last read state of the button */
+    unsigned long lastDebounceTime;         /** The last time the button state changed */
     const unsigned long debounceDelay = 50; /** Debounce delay in milliseconds */
-    LED* led;                        /** LED which this button controls */
-    const NoteInfo* note;             /** Current note that this button can play */
+    LED& led;                               /** LED which this button controls */
+    const NoteInfo* note;                   /** Current note that this button can play */
 
 public:
     /**
@@ -60,6 +60,29 @@ public:
      * @param note Note to set.
      */
     void setNote(const NoteInfo* note);
+
+    /**
+     * @brief Checks if the Button has note assigned.
+     * 
+     * @return true if the note is assigned, false otherwise.
+     */
+    bool hasNote() const;
+
+    /**
+     * @brief Get the Button's current note or nullptr if there is no note.
+     * 
+     * @return Current note or nullptr
+     */
+    const NoteInfo* getNote();
+
+    /**
+     * @brief Handles the Button press.
+     * 
+     * Plays the current note and lights up the corresponding LED.
+     * 
+     * @param buzzer Reference to a buzzer object that is to play a note.
+     */
+    void handleBtnPress(Buzzer& buzzer);
 };
 
 #endif // _BUTTON_H_

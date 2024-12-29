@@ -5,7 +5,7 @@
 // Constructor
 Button::Button(uint8_t pinNumber, int buttonIndex, LED& ledObject) 
                 : 
-                pin(pinNumber), index(buttonIndex), led(&ledObject),
+                pin(pinNumber), index(buttonIndex), led(ledObject),
                 lastState(HIGH), lastDebounceTime(0), note(nullptr) {}
 
 // Set the pinMode for the button pin
@@ -34,6 +34,7 @@ bool Button::isPressed() {
     return false;
 }
 
+// Set the Button's note
 void Button::setNote(const NoteInfo* note) {
     this->note = note;
 
@@ -41,4 +42,37 @@ void Button::setNote(const NoteInfo* note) {
     Serial.print(this->note->note);
     Serial.print("set for Button ");
     Serial.println(this->index);
+}
+
+// Check if the Button has note assigned
+bool Button::hasNote() const {
+    return this->note != nullptr;
+}
+
+// Get the Button's current note or nullptr if there is no note
+const NoteInfo* Button::getNote() {
+    if (this->hasNote()) {
+        return this->note;
+    }
+    return nullptr;
+}
+
+// Handle the Button press
+void Button::handleBtnPress(Buzzer& buzzer) {
+    // Light up the LED
+    this->led.on();
+
+    // Retrieve the note and play it
+    const NoteInfo* currentNote = this->getNote();
+
+	if (currentNote != nullptr) {
+		buzzer.playNote(currentNote);
+	} else {
+        Serial.print("Note not found for button index ");
+        Serial.println(this->index);
+    }
+
+    // Turn the LED off
+    // not sure if enough time has passed??? TODO...
+    this->led.off();
 }
