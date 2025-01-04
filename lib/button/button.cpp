@@ -15,21 +15,33 @@ void Button::begin() {
 
 // Check if the button is pressed (with debouncing)
 bool Button::isPressed() {
-    bool currentState = digitalRead(pin);
-        
+    bool currentState = digitalRead(pin); // Read current state
+
     // Check if the button state has changed
     if (currentState != lastState) {
-        lastDebounceTime = millis();
+        lastDebounceTime = millis(); // Update debounce time
     }
 
-    // If the state has been stable for long enough, consider it a valid press
-    if ((millis() - lastDebounceTime) > debounceDelay) {
-        if (currentState == LOW && lastState == HIGH) { // Button was just pressed
-            lastState = currentState;
-            return true;
-        }
-    }
+    // // If the state has been stable for long enough, consider it a valid press
+    // if ((millis() - lastDebounceTime) > debounceDelay) {
+    //     if (currentState == LOW && lastState == HIGH) { // Button was just pressed
+    //         lastState = currentState;
+    //         Serial.print("Button ");
+    //         Serial.print(this->index);
+    //         Serial.println(" pressed!");
+    //         return true;
+    //     }
+    // }
 
+    // for some reason, the debounce mechanic doesn't work with hardware.
+    // so i simplified the checks for now...
+    if (currentState == LOW && lastState == HIGH) { // Button was just pressed
+        lastState = currentState;
+        Serial.print("Button ");
+        Serial.print(this->index);
+        Serial.println(" pressed!");
+        return true;
+    }
     lastState = currentState; // Update the last state
     return false;
 }
@@ -72,7 +84,8 @@ void Button::handleBtnPress(Buzzer& buzzer) {
         Serial.println(this->index);
     }
 
-    // Turn the LED off
-    // not sure if enough time has passed??? TODO...
+    // Turn the LED and Buzzer off
+    // enough time has passed because playNote() ensures the delay for the duratio of the note
+    buzzer.stop();
     this->led.off();
 }

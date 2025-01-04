@@ -4,6 +4,7 @@ Buzzer::Buzzer(uint8_t pinNumber) : pin(pinNumber) {}
 
 void Buzzer::begin() {
     pinMode(pin, OUTPUT);
+    stop();
     Serial.println("Buzzer initialized!");
 }
 
