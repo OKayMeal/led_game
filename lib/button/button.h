@@ -76,6 +76,11 @@ public:
     const NoteInfo* getNote();
 
     /**
+     * @brief Get the Button's index.
+     */
+    int getIndex();
+    
+    /**
      * @brief Handles the Button press.
      * 
      * Plays the current note and lights up the corresponding LED.

@@ -10,4 +10,8 @@ const NoteInfo melody1[] = {
 };
 
 // Length of the melody (number of notes)
-const int melody1Length = sizeof(melody1) / sizeof(melody1[0]);
+const int melodyLength = sizeof(melody1) / sizeof(melody1[0]);
+
+// Aggregated melodies pointers in one arr
+const NoteInfo* melodies[] = { melody1 };
+const int MELODIES_COUNT = sizeof(melodies) / sizeof(melodies[0]);

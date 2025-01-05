@@ -69,6 +69,10 @@ const NoteInfo* Button::getNote() {
     return nullptr;
 }
 
+int Button::getIndex() {
+    return index;
+}
+
 // Handle the Button press
 void Button::handleBtnPress(Buzzer& buzzer) {
     // Light up the LED

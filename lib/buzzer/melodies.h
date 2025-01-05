@@ -12,6 +12,7 @@ struct NoteInfo {
 
 // Declare melody1, getFrequency, and noteNames as extern to avoid multiple definitions
 extern const NoteInfo melody1[];
-extern const int melody1Length;
-
+extern const int melodyLength;
+extern const NoteInfo* melodies[];
+extern const int MELODIES_COUNT;
 #endif // MELODIES_H
