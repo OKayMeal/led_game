@@ -1,6 +1,8 @@
 #ifndef GAME_CONTROLLER_H
 #define GAME_CONTROLLER_H
 
+#define MAX_BTNS 4
+
 #include <Arduino.h>
 #include <button.h>
 
@@ -10,17 +12,17 @@
  */
 class GameController {
 private:
-    static const int MAX_BUTTONS = 4;       /** Max number of buttons in the game */
-    static const int MAX_SEQUENCE = 10;     /** Max sequence length for the game */
-    Buzzer& buzzer;                         /** Buzzer reference */
-    Button* buttons[MAX_BUTTONS];           /** Array of buttons */
-    LED& successLed;                        /** Green LED which lights up when player succeeds */
-    LED& failLed;                           /** Red LED which lights up when player fails */
-    const NoteInfo* melody;                 /** Pointer to a melody that is a goal of the game */
-    int sequence[MAX_SEQUENCE];             /** Array holding the sequence of buttons e.g. {btn0, btn2, btn3, ...} */
-    int round = 0;                          /** Round number */
-    int playerInputs = 0;                   /** Number of player inputs taken during the round */
-    bool takeInputs = false;                /** Whether game takes in player inputs */
+    static constexpr int MAX_BUTTONS = MAX_BTNS;       /** Max number of buttons in the game */
+    static constexpr int MAX_SEQUENCE = 10;            /** Max sequence length for the game */
+    Buzzer& buzzer;                                    /** Buzzer reference */
+    Button* buttons[MAX_BUTTONS];                      /** Array of buttons */
+    LED& successLed;                                   /** Green LED which lights up when player succeeds */
+    LED& failLed;                                      /** Red LED which lights up when player fails */
+    const NoteInfo* melody;                            /** Pointer to a melody that is a goal of the game */
+    int sequence[MAX_SEQUENCE];                        /** Array holding the sequence of buttons e.g. {btn0, btn2, btn3, ...} */
+    int round = 0;                                     /** Round number */
+    int playerInputs = 0;                              /** Number of player inputs taken during the round */
+    bool takeInputs = false;                           /** Whether game takes in player inputs */
 
     /**
      * @brief Chooses a random melody for the game from the array of melodies and stores it in this->melody.
@@ -29,7 +31,7 @@ private:
      * 
      * @param arrSize The length of the array.
      */
-    void chooseMelody(const NoteInfo* melodiesArr, const int arrSize);
+    void chooseMelody(const NoteInfo* const* melodiesArr, const int arrSize);
 
     /**
      * @brief Generates a sequence (objective) for the game.
@@ -59,7 +61,7 @@ public:
     GameController(
         Button* buttonsArr[MAX_BUTTONS], Buzzer& buzzerObj,
         LED& greenLedObj, LED& redLedObj,
-        const NoteInfo* melodiesArr, const int arrSize
+        const NoteInfo* const* melodiesArr, const int arrSize
     );
 
     /**

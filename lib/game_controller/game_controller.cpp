@@ -4,7 +4,7 @@
 GameController::GameController(
             Button* buttonsArr[MAX_BUTTONS], Buzzer& buzzerObj,
             LED& greenLedObj, LED& redLedObj,
-            const NoteInfo* melodiesArr, const int arrSize)
+            const NoteInfo* const* melodiesArr, const int arrSize)
             :
             buzzer(buzzerObj), successLed(greenLedObj), failLed(redLedObj), melody(nullptr) {
                 for (size_t i = 0; i < MAX_BUTTONS; i++)
@@ -19,9 +19,9 @@ GameController::GameController(
                 this->createSequence();
             }
 
-void GameController::chooseMelody(const NoteInfo* melodiesArr, const int arrSize) {
+void GameController::chooseMelody(const NoteInfo* const* melodiesArr, const int arrSize) {
     long randNumber = random(0, arrSize + 1);
-    this->melody = &melodiesArr[randNumber];
+    this->melody = melodiesArr[randNumber];
 
     Serial.print("Melody number ");
     Serial.print(randNumber + 1);
