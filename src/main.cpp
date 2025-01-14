@@ -37,6 +37,8 @@ void setup()
 	}
 
 	gameController = new GameController(btns, buzzer, successLed, failLed, melodies, MELODIES_COUNT);
+	
+	Serial.println("Setup finished!");
 }
 
 void loop()
