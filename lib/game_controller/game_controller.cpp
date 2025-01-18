@@ -48,7 +48,7 @@ void GameController::createSequence() {
         {3, 1, 0, 2}, {3, 1, 2, 0}, {3, 2, 0, 1}, {3, 2, 1, 0}
     };
 
-    long randNumber = random(0, 25);
+    long randNumber = random(0, permutations + 1);
     Serial.println("Creating sequence: ");
     Serial.print("[ ");
     for (int i = 0; i < MAX_SEQUENCE; i++)
