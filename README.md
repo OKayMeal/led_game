@@ -12,5 +12,5 @@ The circuit consists of following components:
 
 Connections:
 Please refer to pinout.txt file
-
+[Video presentation](https://www.youtube.com/watch?v=ztAzpu923Lk)
 ![project](https://github.com/user-attachments/assets/1b316bc9-fad8-4a75-ad07-c05e304d1e27)
