@@ -10,7 +10,8 @@ The circuit consists of following components:
 - 4x Button
 - 1x 1k Ohm resistor (optional, this is just to make the buzzer a bit less noisy)
 
+[Video presentation](https://www.youtube.com/watch?v=ztAzpu923Lk)
+
 Connections:
 Please refer to pinout.txt file
-[Video presentation](https://www.youtube.com/watch?v=ztAzpu923Lk)
-![project](https://github.com/user-attachments/assets/1b316bc9-fad8-4a75-ad07-c05e304d1e27)
+
