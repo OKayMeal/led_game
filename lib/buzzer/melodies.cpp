@@ -1,5 +1,7 @@
 #include <melodies.h>
 
+// Add more melodies here to make the game more interesting
+
 // Melody 1
 const NoteInfo melody1[] = {
     {"NOTE_A4", 500, 500},

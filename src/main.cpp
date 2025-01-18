@@ -1,6 +1,9 @@
 #include <Arduino.h>
 #include <game_controller.h>
 
+// Needed for random seed
+#define UNCONNECTED_PIN 0
+
 Buzzer buzzer(3);
 LED led0(13);
 LED led1(12);
@@ -36,8 +39,11 @@ void setup()
 		btns[i]->begin();
 	}
 
+	// Seed the random number generator with a noisy value from an unconnected pin
+  	randomSeed(analogRead(UNCONNECTED_PIN));
+
 	gameController = new GameController(btns, buzzer, successLed, failLed, melodies, MELODIES_COUNT);
-	
+	gameController->setNotes();
 	Serial.println("Setup finished!");
 }
 

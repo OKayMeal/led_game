@@ -1,6 +1,10 @@
 #ifndef GAME_CONTROLLER_H
 #define GAME_CONTROLLER_H
 
+/** When changing the MAX_BTNS value don't forget to add the permutations
+ * in GameController::createSequences() as they are not generated dynamically
+ * due to Arduino HW and SW limitations 
+*/
 #define MAX_BTNS 4
 
 #include <Arduino.h>
@@ -13,7 +17,7 @@
 class GameController {
 private:
     static constexpr int MAX_BUTTONS = MAX_BTNS;       /** Max number of buttons in the game */
-    static constexpr int MAX_SEQUENCE = 10;            /** Max sequence length for the game */
+    static constexpr int MAX_SEQUENCE = MAX_BTNS;      /** Max sequence length for the game */
     Buzzer& buzzer;                                    /** Buzzer reference */
     Button* buttons[MAX_BUTTONS];                      /** Array of buttons */
     LED& successLed;                                   /** Green LED which lights up when player succeeds */
@@ -38,10 +42,7 @@ private:
      */
     void createSequence();
 
-    /**
-     * @brief Assigns notes for all the buttons.
-     */
-    void setNotes();
+    
 public:
     /**
      * @brief Constructor for the GameController class.
@@ -65,6 +66,11 @@ public:
     );
 
     /**
+     * @brief Assigns notes for all the buttons.
+     */
+    void setNotes();
+
+    /**
      * @brief Updates the game state.
      * 
      * This method should be called in the main loop to handle game input and the gameplay.
@@ -75,6 +81,11 @@ public:
      * @brief Game Over! Finishes the game dramatically.
      */
     void gameOver();
+
+    /**
+     * @brief Victory! Indicates that the player won the game.
+     */
+    void victory();
 };
 
 #endif // GAME_CONTROLLER_H

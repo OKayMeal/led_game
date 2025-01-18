@@ -29,45 +29,50 @@ void GameController::chooseMelody(const NoteInfo* const* melodiesArr, const int 
 }
 
 void GameController::createSequence() {
+    // The number of permutations as factorial of MAX_BUTTONS
+    int permutations = 1;
+    for (int i = 1; i <= MAX_BUTTONS; i++)
+    {
+        permutations *= i;
+    }
+    
+    // All possible sequences with numbers 0, 1, 2, 3
+    int sequences[permutations][MAX_BUTTONS] = {
+        // Those are hard coded permutations because generating them dynamically is hell on arduino
+        // NEEDS TO BE MANUALLY ADJUSTED IF THE MAX_BUTTONS IS NOT 4
+        {0, 1, 2, 3}, {0, 1, 3, 2}, {0, 2, 1, 3}, {0, 2, 3, 1},
+        {0, 3, 1, 2}, {0, 3, 2, 1}, {1, 0, 2, 3}, {1, 0, 3, 2},
+        {1, 2, 0, 3}, {1, 2, 3, 0}, {1, 3, 0, 2}, {1, 3, 2, 0},
+        {2, 0, 1, 3}, {2, 0, 3, 1}, {2, 1, 0, 3}, {2, 1, 3, 0},
+        {2, 3, 0, 1}, {2, 3, 1, 0}, {3, 0, 1, 2}, {3, 0, 2, 1},
+        {3, 1, 0, 2}, {3, 1, 2, 0}, {3, 2, 0, 1}, {3, 2, 1, 0}
+    };
+
+    long randNumber = random(0, 25);
     Serial.println("Creating sequence: ");
     Serial.print("[ ");
-
     for (int i = 0; i < MAX_SEQUENCE; i++)
     {
-        long randNumber = random(0, MAX_BUTTONS + 1);
-        sequence[i] = randNumber;
-        Serial.print(randNumber);
+        sequence[i] = sequences[randNumber][i];
+        Serial.print(sequence[i]);
         Serial.print(", ");
     }
-
     Serial.println(" ]");
 }
 
 void GameController::setNotes() {
-    int correctBtnIndex = sequence[round];
-    const NoteInfo correctNote = melody[round];
-    Serial.print("Correct button: ");
-    Serial.println(correctBtnIndex);
-    Serial.print("Correct note: ");
-    Serial.print(correctNote.note);
-
-    for (int i = 0; i < MAX_BUTTONS; i++)
+    for (int i = 0; i < MAX_SEQUENCE; i++)
     {
-        if (i == correctBtnIndex) {
-            // Set the correct note from melody to a correct btn in a sequence
-            buttons[i]->setNote(&correctNote);
-        } else {
-            // Roll a random note for other buttons
-            int randNumber = -1;
-            while (randNumber == -1 || randNumber == round)
-            {
-                randNumber = random(melodyLength);
-            }
+        int correctBtnIndex = sequence[i];
+        Serial.print("Setting note ");
+        Serial.print(melody[i].note);
+        Serial.print(" for button ");
+        Serial.println(correctBtnIndex);
+        
 
-            buttons[i]->setNote(&melody[randNumber]);
-        }
+        buttons[correctBtnIndex]->setNote(&melody[i]);
     }
-    Serial.println("Notes set for all the buttons!");
+    
 }
 
 void GameController::update() {
@@ -84,14 +89,21 @@ void GameController::update() {
             {
                 Button* currentButton = buttons[i];
                 if (currentButton->isPressed()) {
-                    playerInputs++;
+                    // playerInputs++;
                     currentButton->handleBtnPress(buzzer);
 
                     // Check if input is correct
                     int correctBtnIndex = sequence[playerInputs];
+                    Serial.print("Correct btn index: ");
+                    Serial.println(correctBtnIndex);
                     if (currentButton->getIndex() == correctBtnIndex) {
                         Serial.println("Correct input!");
-                        successLed.on();
+                        playerInputs++;
+
+                        if (playerInputs == round + 1) {
+                            successLed.on();
+                        }
+                        
                     } else {
                         Serial.println("Incorrect input!");
                         gameOver();
@@ -99,6 +111,7 @@ void GameController::update() {
                 }
             }
         }
+
         Serial.println("Player played the sequence correctly!");
         successLed.on();
 
@@ -108,7 +121,14 @@ void GameController::update() {
         Serial.print(round);
         Serial.println(" ");
 
+        if (round == MAX_SEQUENCE) {
+            // player won!
+            victory();
+        }
+
         takeInputs = false;
+        delay(1000);
+
     } else {
         // Prepare next round
         Serial.print("Preparing round ");
@@ -119,15 +139,13 @@ void GameController::update() {
         }
 
         playerInputs = 0; // reset playerInputs
-        
-        // Set notes for all the buttons
-        setNotes();
 
         Serial.println("Showing sequence to player!");
         // Show the sequence to the player
         for (int i = 0; i < round + 1; i++)
         {
-            buttons[sequence[i] - 1]->handleBtnPress(buzzer);
+            buttons[sequence[i]]->handleBtnPress(buzzer);
+            delay(500);
         }
 
         takeInputs = true;
@@ -142,9 +160,17 @@ void GameController::gameOver() {
 
     failLed.on();
     Serial.print("SCORE: ");
-    Serial.print(round - 1);
+    Serial.print(round);
     Serial.println(" ");
 
-    while (true) { Serial.println("."); }
-    // Buzzer plays the Game Over melody TODO...
+    while (true) { }
+}
+
+void GameController::victory() {
+    Serial.println("VICTORY!");
+    
+    while (true) {
+        successLed.toggle();
+        delay(1000);
+    }
 }
