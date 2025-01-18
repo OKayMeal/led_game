@@ -1,0 +1,13 @@
+OBJECT:     GPIO:                                       CONNECTIONS:
+led0:       13,         led0(+) -> 330 Ohm -> A_GPIO13,                             led0(-) -> A_GND
+led1:       12,         led1(+) -> 330 Ohm -> A_GPIO12,                             led1(-) -> A_GND
+led2:       11,         led2(+) -> 330 Ohm -> A_GPIO11,                             led2(-) -> A_GND
+led3:       10,         led3(+) -> 330 Ohm -> A_GPIO10,                             led3(-) -> A_GND
+btn0:       9,          btn0 -> A_GPIO9,                                            btn0 -> A_GND
+btn1:       8,          btn1 -> A_GPIO8,                                            btn1 -> A_GND
+btn2:       7,          btn2 -> A_GPIO7,                                            btn2 -> A_GND
+btn3:       6,          btn3 -> A_GPIO6,                                            btn3 -> A_GND
+failLed:    5,          failLed(+) -> 330 Ohm -> A_GPIO5,                           failLed(-) -> A_GND
+successLed: 4,          successLed(+) -> 330 Ohm -> A_GPIO4,                        successLed(-) -> A_GND
+buzzer:     3           buzzer(I/O) -> A_GPIO3,   buzzer(VCC) -> 1kOhm -> A_3.3V,   buzzer(GND) -> A_GND
+
